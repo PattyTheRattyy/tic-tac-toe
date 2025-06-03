@@ -104,7 +104,7 @@ function GameController(playerOne, playerTwo) {
             for (let j = 0; j < cols; j++) {
                 if (arrBoard[i][j].getValue() != token) {
                     console.log("no winner yet");
-                    continue;
+                    break;
                 } 
                 if (j == 2) {
                     // console.log("row of same token");
@@ -129,7 +129,7 @@ function GameController(playerOne, playerTwo) {
                 let token = arrBoard[0][j].getValue();
                 if (arrBoard[i][j].getValue() != token) {
                     console.log("no winner yet");
-                    continue;
+                    break;
                 }
                 // potential bug right here, if on the last column the token matches then it might think the whole row matches 
                 if (j == 2) {
@@ -187,7 +187,7 @@ function GameController(playerOne, playerTwo) {
     switchPlayerTurn();
 
     printNewRound();
-    playRound(1,1);
+    playRound(1,2);
     switchPlayerTurn();
 
     rowCheck();
