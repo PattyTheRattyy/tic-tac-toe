@@ -20,6 +20,7 @@ function Gameboard() {
             board[row][col].addToken(playerToken);
         }
         else
+            // need to enforce this and make them pick again but i think it will be easier with the dom
             console.log("Cell taken");
     }
 
@@ -152,14 +153,42 @@ function GameController(playerOne, playerTwo) {
         }
     }
 
+    diagCheck = () => {
+        token = arrBoard[0][0].getValue();
+
+        if (token == arrBoard[1][1].getValue() && token == arrBoard[2][2].getValue()) {
+            if (token == players[0].token) {
+                winner = players[0];
+                console.log(`The winner is ${winner.name}!`);
+                return winner;
+            } 
+            else if (token == players[1].token) {
+                winner = players[1];
+                console.log(`The winner is ${winner.name}!`);
+                return winner;
+            }
+
+        } 
+        token = arrBoard[0][2].getValue();
+        if (token == arrBoard[1][1].getValue() && token == arrBoard[2][0].getValue()) {
+            if (token == players[0].token) {
+                winner = players[0];
+                console.log(`The winner is ${winner.name}!`);
+                return winner;
+            } 
+            else if (token == players[1].token) {
+                winner = players[1];
+                console.log(`The winner is ${winner.name}!`);
+                return winner;
+            }
+        }
+    }
+
     winCheck = () => {
         
-        if (false) {
-            console.log("${playerOne} won!");
-            return true;
-        } else {
-            return false
-        }
+        rowCheck();
+        colCheck();
+        diagCheck();
 
     }
     
@@ -170,23 +199,11 @@ function GameController(playerOne, playerTwo) {
     // }
 
     printNewRound();
-    playRound(0,1);
+    playRound(0,0);
     switchPlayerTurn();
     
     printNewRound();
-    playRound(0,0);
-    switchPlayerTurn();
-
-    printNewRound();
-    playRound(1,1);
-    switchPlayerTurn();
-
-    printNewRound();
-    playRound(1,0);
-    switchPlayerTurn();
-
-    printNewRound();
-    playRound(2,1);
+    playRound(0,2);
     switchPlayerTurn();
 
     printNewRound();
@@ -194,9 +211,22 @@ function GameController(playerOne, playerTwo) {
     switchPlayerTurn();
 
     printNewRound();
+    playRound(1,1);
+    switchPlayerTurn();
+
+    printNewRound();
+    playRound(2,2);
+    switchPlayerTurn();
+
+    printNewRound();
+    playRound(2,0);
+    switchPlayerTurn();
+
+    printNewRound();
 
     rowCheck();
     colCheck();
+    diagCheck();
     
 
     return { playRound, getActivePlayer, winCheck }
