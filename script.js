@@ -124,16 +124,19 @@ function GameController(playerOne, playerTwo) {
     }
 
     colCheck = () => {
-        for (let i = 0; i < rows; i++) {
-            for (let j = 0; j < cols; j++) {
-                let token = arrBoard[0][j].getValue();
-                if (arrBoard[i][j].getValue() != token) {
+
+
+        for (let i = 0; i < cols; i++) {
+            let token = arrBoard[0][i].getValue();
+            for (let j = 0; j < rows; j++) {
+                
+                if (arrBoard[j][i].getValue() != token) {
                     console.log("no winner yet");
                     break;
                 }
-                // potential bug right here, if on the last column the token matches then it might think the whole row matches 
+
                 if (j == 2) {
-                    // console.log("row of same token");
+                    console.log("col of same token");
                     if (token == players[0].token) {
                         winner = players[0];
                         console.log(`The winner is ${winner.name}!`);
@@ -167,9 +170,17 @@ function GameController(playerOne, playerTwo) {
     // }
 
     printNewRound();
-    playRound(2,0);
+    playRound(0,1);
     switchPlayerTurn();
     
+    printNewRound();
+    playRound(0,0);
+    switchPlayerTurn();
+
+    printNewRound();
+    playRound(1,1);
+    switchPlayerTurn();
+
     printNewRound();
     playRound(1,0);
     switchPlayerTurn();
@@ -179,18 +190,13 @@ function GameController(playerOne, playerTwo) {
     switchPlayerTurn();
 
     printNewRound();
-    playRound(1,1);
-    switchPlayerTurn();
-
-    printNewRound();
-    playRound(2,2);
-    switchPlayerTurn();
-
-    printNewRound();
     playRound(1,2);
     switchPlayerTurn();
 
+    printNewRound();
+
     rowCheck();
+    colCheck();
     
 
     return { playRound, getActivePlayer, winCheck }
