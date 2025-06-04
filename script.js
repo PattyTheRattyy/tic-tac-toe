@@ -112,12 +112,12 @@ function GameController(playerOne, playerTwo) {
                     if (token == players[0].token) {
                         winner = players[0];
                         console.log(`The winner is ${winner.name}!`);
-                        return winner;
+                        return true;
                     } 
                     else if (token == players[1].token) {
                         winner = players[1];
                         console.log(`The winner is ${winner.name}!`);
-                        return winner;
+                        return true;
                     }
                 }
             }
@@ -141,12 +141,12 @@ function GameController(playerOne, playerTwo) {
                     if (token == players[0].token) {
                         winner = players[0];
                         console.log(`The winner is ${winner.name}!`);
-                        return winner;
+                        return true;
                     } 
                     else if (token == players[1].token) {
                         winner = players[1];
                         console.log(`The winner is ${winner.name}!`);
-                        return winner;
+                        return true;
                     }
                 }
             }
@@ -160,12 +160,12 @@ function GameController(playerOne, playerTwo) {
             if (token == players[0].token) {
                 winner = players[0];
                 console.log(`The winner is ${winner.name}!`);
-                return winner;
+                return true;
             } 
             else if (token == players[1].token) {
                 winner = players[1];
                 console.log(`The winner is ${winner.name}!`);
-                return winner;
+                return true;
             }
 
         } 
@@ -174,22 +174,47 @@ function GameController(playerOne, playerTwo) {
             if (token == players[0].token) {
                 winner = players[0];
                 console.log(`The winner is ${winner.name}!`);
-                return winner;
+                return true;
             } 
             else if (token == players[1].token) {
                 winner = players[1];
                 console.log(`The winner is ${winner.name}!`);
-                return winner;
+                return true;
+            }
+        }
+    }
+
+    tieCheck = () => {
+        let freeCells = 9;
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols; j++) {
+                if (arrBoard[i][j].getValue() != 0) {
+                    freeCells--;
+                    if (freeCells == 0) {
+                        winner = "tie";
+                        console.log("Its a tie!");
+                        return true;
+                    }
+                }
             }
         }
     }
 
     winCheck = () => {
         
-        rowCheck();
-        colCheck();
-        diagCheck();
-
+        if (rowCheck()) {
+            return true;
+        }
+        if (colCheck()) {
+            return true;
+        }        
+        if (diagCheck()) {
+            return true;
+        }
+        if (tieCheck()){
+            return true;
+        }        
+        return false;
     }
     
     // while (!winCheck()) {
@@ -203,11 +228,11 @@ function GameController(playerOne, playerTwo) {
     switchPlayerTurn();
     
     printNewRound();
-    playRound(0,2);
+    playRound(0,1);
     switchPlayerTurn();
 
     printNewRound();
-    playRound(1,2);
+    playRound(0,2);
     switchPlayerTurn();
 
     printNewRound();
@@ -215,7 +240,7 @@ function GameController(playerOne, playerTwo) {
     switchPlayerTurn();
 
     printNewRound();
-    playRound(2,2);
+    playRound(1,0);
     switchPlayerTurn();
 
     printNewRound();
@@ -223,10 +248,23 @@ function GameController(playerOne, playerTwo) {
     switchPlayerTurn();
 
     printNewRound();
+    playRound(2,1);
+    switchPlayerTurn();
+
+    printNewRound();
+    playRound(1,2);
+    switchPlayerTurn();
+
+    printNewRound();
+    playRound(2,2);
+    switchPlayerTurn();
+
+    printNewRound();
 
     rowCheck();
     colCheck();
     diagCheck();
+    tieCheck();
     
 
     return { playRound, getActivePlayer, winCheck }
