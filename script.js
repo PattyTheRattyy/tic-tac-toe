@@ -91,6 +91,9 @@ function GameController(playerOne, playerTwo) {
 
     playRound = (row, col) => {
         board.pickCell(row, col, activePlayer.token);
+
+        switchPlayerTurn();
+        printNewRound();
     }
 
 
@@ -223,43 +226,24 @@ function GameController(playerOne, playerTwo) {
     //     switchPlayerTurn();
     // }
 
-    printNewRound();
     playRound(0,0);
-    switchPlayerTurn();
     
-    printNewRound();
     playRound(0,1);
-    switchPlayerTurn();
 
-    printNewRound();
     playRound(0,2);
-    switchPlayerTurn();
 
-    printNewRound();
     playRound(1,1);
-    switchPlayerTurn();
 
-    printNewRound();
     playRound(1,0);
-    switchPlayerTurn();
 
-    printNewRound();
     playRound(2,0);
-    switchPlayerTurn();
 
-    printNewRound();
     playRound(2,1);
-    switchPlayerTurn();
 
-    printNewRound();
     playRound(1,2);
-    switchPlayerTurn();
 
-    printNewRound();
     playRound(2,2);
-    switchPlayerTurn();
 
-    printNewRound();
 
     rowCheck();
     colCheck();

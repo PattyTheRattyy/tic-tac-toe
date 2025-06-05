@@ -5,3 +5,26 @@
     padding: 0;
 }
 
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.board {
+    display: grid;
+
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+}
+
+.cell {
+    border: 2px solid black;
+
+    /* height: 50px;
+    width: 50px; */
+}
