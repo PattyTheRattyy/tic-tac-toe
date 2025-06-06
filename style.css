@@ -13,6 +13,12 @@ body {
     align-items: center;
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 .board {
     display: grid;
@@ -25,6 +31,7 @@ body {
 .cell {
     border: 2px solid black;
 
-    /* height: 50px;
-    width: 50px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

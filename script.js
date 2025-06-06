@@ -70,7 +70,7 @@ function GameController(playerOne, playerTwo) {
         }
     ]
 
-    activePlayer = players[0];
+    let activePlayer = players[0];
 
     getActivePlayer = () => {
         activePlayer;
@@ -254,6 +254,39 @@ function GameController(playerOne, playerTwo) {
     return { playRound, getActivePlayer, winCheck }
 }
 
-game = GameController("player 1", "player 2");
+
+function ScreenController() {
+    const game = GameController("default1", "default2");
+    const turnDiv = document.querySelector(".turn");
+    const boardDiv = document.querySelector(".board");
+
+    const updateScreen = () => {
+        // clear screen
+        boardDiv.textContent = "";
+
+        // get active player
+        const activePlayerTest = game.getActivePlayer();
+
+        // display active players turn
+        turnDiv.textContent = `${activePlayerTest.name}'s turn...`;
+
+        // render board
+        for (let i = 0; i < Gameboard.rows; i++) {
+            for (let j = 0; j < Gameboard.cols; j++) {
+                const cell = document.createElement("button");
+                cell.classList.add("cell");
+
+                boardDiv.appendChild(cell);
+
+
+            }
+        }
+    }
+    updateScreen();
+}
+
+
+ScreenController();
+
 
 
