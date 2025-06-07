@@ -1,7 +1,7 @@
 function Gameboard() {
-    rows = 3;
-    cols = 3;
-    board = [];
+    const rows = 3;
+    const cols = 3;
+    let board = [];
 
     for (let i = 0; i < rows; i++) {
         board[i] = [];
@@ -73,7 +73,7 @@ function GameController(playerOne, playerTwo) {
     let activePlayer = players[0];
 
     getActivePlayer = () => {
-        activePlayer;
+        return activePlayer;
     }
 
     switchPlayerTurn = () => {
@@ -103,9 +103,9 @@ function GameController(playerOne, playerTwo) {
     let arrBoard = board.getBoard();
 
     rowCheck = () => {
-        for (let i = 0; i < rows; i++) {
+        for (let i = 0; i < board.rows; i++) {
             let token = arrBoard[i][0].getValue();
-            for (let j = 0; j < cols; j++) {
+            for (let j = 0; j < board.cols; j++) {
                 if (arrBoard[i][j].getValue() != token) {
                     console.log("no winner yet");
                     break;
@@ -130,9 +130,9 @@ function GameController(playerOne, playerTwo) {
     colCheck = () => {
 
 
-        for (let i = 0; i < cols; i++) {
+        for (let i = 0; i < board.cols; i++) {
             let token = arrBoard[0][i].getValue();
-            for (let j = 0; j < rows; j++) {
+            for (let j = 0; j < board.rows; j++) {
                 
                 if (arrBoard[j][i].getValue() != token) {
                     console.log("no winner yet");
@@ -189,8 +189,8 @@ function GameController(playerOne, playerTwo) {
 
     tieCheck = () => {
         let freeCells = 9;
-        for (let i = 0; i < rows; i++) {
-            for (let j = 0; j < cols; j++) {
+        for (let i = 0; i < board.rows; i++) {
+            for (let j = 0; j < board.cols; j++) {
                 if (arrBoard[i][j].getValue() != 0) {
                     freeCells--;
                     if (freeCells == 0) {
@@ -256,7 +256,7 @@ function GameController(playerOne, playerTwo) {
 
 
 function ScreenController() {
-    const game = GameController("default1", "default2");
+    const game = GameController("player 1", "player 2");
     const turnDiv = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
 
@@ -265,14 +265,14 @@ function ScreenController() {
         boardDiv.textContent = "";
 
         // get active player
-        const activePlayerTest = game.getActivePlayer();
+        let activePlayerTest = game.getActivePlayer();
 
         // display active players turn
         turnDiv.textContent = `${activePlayerTest.name}'s turn...`;
 
         // render board
-        for (let i = 0; i < Gameboard.rows; i++) {
-            for (let j = 0; j < Gameboard.cols; j++) {
+        for (let i = 0; i < Gameboard.board.rows; i++) {
+            for (let j = 0; j < Gameboard.board.cols; j++) {
                 const cell = document.createElement("button");
                 cell.classList.add("cell");
 
