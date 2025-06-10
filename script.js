@@ -225,30 +225,6 @@ function GameController(playerOne, playerTwo) {
     //     playRound();
     //     switchPlayerTurn();
     // }
-
-    playRound(0,0);
-    
-    playRound(0,1);
-
-    playRound(0,2);
-
-    playRound(1,1);
-
-    playRound(1,0);
-
-    playRound(2,0);
-
-    playRound(2,1);
-
-    playRound(1,2);
-
-    playRound(2,2);
-
-
-    rowCheck();
-    colCheck();
-    diagCheck();
-    tieCheck();
     
 
     return { playRound, getActivePlayer, winCheck, getBoard: board.getBoard }
@@ -272,15 +248,15 @@ function ScreenController() {
         turnDiv.textContent = `${activePlayer.name}'s turn...`;
 
         // render board
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[0].length; j++) {
                 const cell = document.createElement("button");
                 cell.classList.add("cell");
 
                 cell.textContent = board[i][j].getValue();
                 
                 cell.dataset.row = i;
-                cell.dataset.column = j;
+                cell.dataset.col = j;
 
                 boardDiv.appendChild(cell);
 
@@ -288,6 +264,21 @@ function ScreenController() {
             }
         }
     }
+
+    function cellClick(e) {
+
+        const row = e.target.dataset.row;
+        const col = e.target.dataset.col;
+
+        if (!row && !col) return;
+
+        game.playRound(row, col);
+        updateScreen();
+
+    }
+    boardDiv.addEventListener("click", cellClick);
+
+
     updateScreen();
 }
 
