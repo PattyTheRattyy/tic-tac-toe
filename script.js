@@ -251,7 +251,7 @@ function GameController(playerOne, playerTwo) {
     tieCheck();
     
 
-    return { playRound, getActivePlayer, winCheck }
+    return { playRound, getActivePlayer, winCheck, getBoard: board.getBoard }
 }
 
 
@@ -264,17 +264,23 @@ function ScreenController() {
         // clear screen
         boardDiv.textContent = "";
 
-        // get active player
-        let activePlayerTest = game.getActivePlayer();
+        // get active player and board
+        const board = game.getBoard();
+        const activePlayer = game.getActivePlayer();
 
         // display active players turn
-        turnDiv.textContent = `${activePlayerTest.name}'s turn...`;
+        turnDiv.textContent = `${activePlayer.name}'s turn...`;
 
         // render board
-        for (let i = 0; i < Gameboard.board.rows; i++) {
-            for (let j = 0; j < Gameboard.board.cols; j++) {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
                 const cell = document.createElement("button");
                 cell.classList.add("cell");
+
+                cell.textContent = board[i][j].getValue();
+                
+                cell.dataset.row = i;
+                cell.dataset.column = j;
 
                 boardDiv.appendChild(cell);
 
