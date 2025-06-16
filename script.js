@@ -15,13 +15,17 @@ function Gameboard() {
 
 
     pickCell = (row, col, playerToken) => {
-        
-        if (board[row][col].getValue() === 0){
+
+        if (board[row][col].getValue() === ""){
             board[row][col].addToken(playerToken);
+
+            return true;
         }
-        else
+        else {
             // need to enforce this and make them pick again but i think it will be easier with the dom
             console.log("Cell taken");
+            return false;
+        }
     }
 
     printBoard = () => {
@@ -42,7 +46,7 @@ function Gameboard() {
 
 
 function Cell() {
-    let value = 0;
+    let value = "";
 
     const addToken = (player) => {
         value = player
@@ -61,12 +65,12 @@ function GameController(playerOne, playerTwo) {
     const board = Gameboard();
     players = [
         {   name: playerOne,
-            token: 1
+            token: "x"
         },
 
         {
             name: playerTwo,
-            token: 2
+            token: "o"
         }
     ]
 
@@ -90,10 +94,15 @@ function GameController(playerOne, playerTwo) {
     }
 
     playRound = (row, col) => {
-        board.pickCell(row, col, activePlayer.token);
+        result = board.pickCell(row, col, activePlayer.token);
+        console.log("test");
+        console.log(result);
 
-        switchPlayerTurn();
-        printNewRound();
+        if (result == true) {
+            switchPlayerTurn();
+            printNewRound();
+            winCheck();
+        }
     }
 
 
@@ -101,11 +110,13 @@ function GameController(playerOne, playerTwo) {
 
     let winner;
     let arrBoard = board.getBoard();
+    const turnDiv = document.querySelector(".turn");
 
     rowCheck = () => {
-        for (let i = 0; i < board.rows; i++) {
+        console.log("row checking");
+        for (let i = 0; i < arrBoard.length; i++) {
             let token = arrBoard[i][0].getValue();
-            for (let j = 0; j < board.cols; j++) {
+            for (let j = 0; j < arrBoard[0].length; j++) {
                 if (arrBoard[i][j].getValue() != token) {
                     console.log("no winner yet");
                     break;
@@ -115,11 +126,13 @@ function GameController(playerOne, playerTwo) {
                     if (token == players[0].token) {
                         winner = players[0];
                         console.log(`The winner is ${winner.name}!`);
+                        turnDiv.textContent = `The winner is ${winner.name}!`;
                         return true;
                     } 
                     else if (token == players[1].token) {
                         winner = players[1];
                         console.log(`The winner is ${winner.name}!`);
+                        turnDiv.textContent = `The winner is ${winner.name}!`;
                         return true;
                     }
                 }
@@ -130,9 +143,9 @@ function GameController(playerOne, playerTwo) {
     colCheck = () => {
 
 
-        for (let i = 0; i < board.cols; i++) {
+        for (let i = 0; i < arrBoard.length; i++) {
             let token = arrBoard[0][i].getValue();
-            for (let j = 0; j < board.rows; j++) {
+            for (let j = 0; j < arrBoard[0].length; j++) {
                 
                 if (arrBoard[j][i].getValue() != token) {
                     console.log("no winner yet");
@@ -144,11 +157,13 @@ function GameController(playerOne, playerTwo) {
                     if (token == players[0].token) {
                         winner = players[0];
                         console.log(`The winner is ${winner.name}!`);
+                        turnDiv.textContent = `The winner is ${winner.name}!`;
                         return true;
                     } 
                     else if (token == players[1].token) {
                         winner = players[1];
                         console.log(`The winner is ${winner.name}!`);
+                        turnDiv.textContent = `The winner is ${winner.name}!`;
                         return true;
                     }
                 }
@@ -163,11 +178,14 @@ function GameController(playerOne, playerTwo) {
             if (token == players[0].token) {
                 winner = players[0];
                 console.log(`The winner is ${winner.name}!`);
+                turnDiv.textContent = `The winner is ${winner.name}!`;
+                activePlayer = winner;
                 return true;
             } 
             else if (token == players[1].token) {
                 winner = players[1];
                 console.log(`The winner is ${winner.name}!`);
+                turnDiv.textContent = `The winner is ${winner.name}!`;
                 return true;
             }
 
@@ -177,11 +195,14 @@ function GameController(playerOne, playerTwo) {
             if (token == players[0].token) {
                 winner = players[0];
                 console.log(`The winner is ${winner.name}!`);
+                turnDiv.textContent = `The winner is ${winner.name}!`;
                 return true;
             } 
             else if (token == players[1].token) {
                 winner = players[1];
                 console.log(`The winner is ${winner.name}!`);
+                turnDiv.textContent = `The winner is ${winner.name}!`;
+                activePlayer
                 return true;
             }
         }
@@ -189,45 +210,41 @@ function GameController(playerOne, playerTwo) {
 
     tieCheck = () => {
         let freeCells = 9;
-        for (let i = 0; i < board.rows; i++) {
-            for (let j = 0; j < board.cols; j++) {
+        for (let i = 0; i < arrBoard.length; i++) {
+            for (let j = 0; j < arrBoard[0].length; j++) {
                 if (arrBoard[i][j].getValue() != 0) {
                     freeCells--;
                     if (freeCells == 0) {
                         winner = "tie";
-                        console.log("Its a tie!");
+                        console.log("It's a tie!");
+                        turnDiv.textContent = "Its a tie!";
                         return true;
                     }
                 }
             }
         }
     }
-
-    winCheck = () => {
-        
-        if (rowCheck()) {
-            return true;
-        }
-        if (colCheck()) {
-            return true;
-        }        
-        if (diagCheck()) {
-            return true;
-        }
-        if (tieCheck()){
-            return true;
-        }        
-        return false;
+    let gameOver = false;
+    getGameOver = () => {
+        return gameOver;
     }
-    
-    // while (!winCheck()) {
-    //     printNewRound();
-    //     playRound();
-    //     switchPlayerTurn();
-    // }
+
+    getWinner = () => {
+        return winner;
+    }
+    winCheck = () => {
+        console.log("checking for a win");
+
+        if (rowCheck() || colCheck() || diagCheck() || tieCheck()) {
+            gameOver = true;
+        }
+    }
+
+
+    winCheck();
     
 
-    return { playRound, getActivePlayer, winCheck, getBoard: board.getBoard }
+    return { playRound, getActivePlayer, winCheck, getBoard: board.getBoard, getGameOver, getWinner}
 }
 
 
@@ -245,7 +262,9 @@ function ScreenController() {
         const activePlayer = game.getActivePlayer();
 
         // display active players turn
-        turnDiv.textContent = `${activePlayer.name}'s turn...`;
+        if (!getGameOver()) {
+            turnDiv.textContent = `${activePlayer.name}'s turn...`;
+        }
 
         // render board
         for (let i = 0; i < board.length; i++) {
@@ -260,7 +279,6 @@ function ScreenController() {
 
                 boardDiv.appendChild(cell);
 
-
             }
         }
     }
@@ -270,10 +288,12 @@ function ScreenController() {
         const row = e.target.dataset.row;
         const col = e.target.dataset.col;
 
-        if (!row && !col) return;
-
+        if (!row && !col || getGameOver()) { 
+            return;
+        }
         game.playRound(row, col);
         updateScreen();
+
 
     }
     boardDiv.addEventListener("click", cellClick);
@@ -283,7 +303,16 @@ function ScreenController() {
 }
 
 
+
 ScreenController();
+
+
+
+function restart() {
+    ScreenController();
+}
+const restartBtn = document.querySelector(".restart");
+restartBtn.addEventListener("click", restart);
 
 
 
