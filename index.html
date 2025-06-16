@@ -5,9 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TicTac!</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="container">
+      <dialog>
+        <div class="flex">
+          <form method="dialog" class="startGameForm">
+            <div class="inputLabel">
+              <label for="playerOne">Player 1</label>
+              <input
+                type="text"
+                name="playerOne"
+                id="playerOne"
+                placeholder="player 1"
+                autofocus
+                required
+              />
+            </div>
+            <div class="inputLabel">
+              <label for="playerTwo">Player 2</label>
+              <input
+                type="text"
+                name="playerTwo"
+                id="playerTwo"
+                placeholder="player 2"
+                required
+              />
+            </div>
+            <button class="startGame" type="submit">Start Game</button>
+          </form>
+        </div>
+      </dialog>
       <h1 class="turn"></h1>
       <div class="board"></div>
       <button class="restart" type="button">Restart</button>

@@ -248,8 +248,8 @@ function GameController(playerOne, playerTwo) {
 }
 
 
-function ScreenController() {
-    const game = GameController("player 1", "player 2");
+function ScreenController(playerOne, playerTwo) {
+    const game = GameController(playerOne, playerTwo);
     const turnDiv = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
 
@@ -302,14 +302,32 @@ function ScreenController() {
     updateScreen();
 }
 
+const dialog = document.querySelector("dialog");
+dialog.showModal();
+
+const startGame = document.querySelector(".startGame");
+const startGameForm = document.querySelector(".startGameForm");
+
+startGameForm.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const playerOne = startGameForm.playerOne.value;
+    const playerTwo = startGameForm.playerTwo.value;
+   
 
 
-ScreenController();
+    console.log(playerOne);
+    dialog.close();
+    startGameForm.reset();
+
+    ScreenController(playerOne, playerTwo);
+
+})
 
 
 
 function restart() {
-    ScreenController();
+    dialog.showModal();
 }
 const restartBtn = document.querySelector(".restart");
 restartBtn.addEventListener("click", restart);
